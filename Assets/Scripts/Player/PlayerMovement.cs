@@ -6,26 +6,53 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     [SerializeField] private Vector2 movement;
-    [SerializeField] [Range(1f,100f)] private float speed;
+    [SerializeField] private const float moveSpeed = 10f;
+    [SerializeField] private Vector2 gridSize;
 
-    // Start is called before the first frame update
+    private bool isMoving;
+    public Vector2 moveStart;
+    public Vector2 moveEnd;
+    public float moveTimer;
+    public float moveWait;
+
+
+
+    //Initialise variables
     void Start()
     {
-        rb = this.GetComponent<Rigidbody2D>();
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
+        moveWait = 4f;
     }
 
-    // Update is called once per frame
+    //Get Controls
     void Update()
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 
 
-
     }
 
+    //Move Player
     private void FixedUpdate()
     {
-        rb.velocity = movement * Time.deltaTime * speed;
+
+        if ((movement.x != 0 || movement.y != 0) && isMoving == false)//Determines if player is allowed to move(not currently moving and 'movement' has input
+        {
+            moveTimer = 0;
+            moveStart = rb.position;
+            moveEnd = rb.position + (movement * gridSize);
+            isMoving = true;
+        }
+        if (moveTimer > moveWait)//determines how long until player can move again
+        {
+            isMoving = false;
+        }
+
+        if (isMoving == true)
+        {
+            moveTimer += Time.deltaTime * moveSpeed;//determines how long until player can move again
+            rb.MovePosition(new Vector2(Mathf.Lerp(moveStart.x, moveEnd.x, Mathf.Clamp(moveTimer, 0, 1)), Mathf.Lerp(moveStart.y, moveEnd.y, Mathf.Clamp(moveTimer, 0, 1))));//Moves according to gridSize
+        }
     }
 }
