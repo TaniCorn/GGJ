@@ -27,7 +27,19 @@ public class scripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (Input.GetAxisRaw("Horizontal") != 0)
+        {
+            movement = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+        }
+        else if (Input.GetAxisRaw("Vertical") != 0)
+        {
+            movement = new Vector2(0, Input.GetAxisRaw("Vertical"));
+        }
+        else
+        {
+            movement = new Vector2(0, 0);
+        }
+        //movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 	    if ((movement.x != 0 || movement.y != 0) && isMoving == false)
         {
