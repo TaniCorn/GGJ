@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Cat
+  - Human
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -13,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - UnmovableObjects
   - 
   - 
   - 
@@ -43,4 +46,10 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3429945681
+    locked: 0
+  - name: Interactables
+    uniqueID: 1390107307
+    locked: 0
+  - name: UI
+    uniqueID: 4007768655
     locked: 0

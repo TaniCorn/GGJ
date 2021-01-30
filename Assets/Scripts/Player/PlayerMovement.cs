@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     [SerializeField] private Vector2 movement;
-    [SerializeField] private const float moveSpeed = 10f;
+    [SerializeField] private const float moveSpeed = 8f;
     [SerializeField] private Vector2 gridSize;
 
     private bool isMoving;
@@ -29,14 +29,6 @@ public class PlayerMovement : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-
-
-    }
-
-    //Move Player
-    private void FixedUpdate()
-    {
-
         if ((movement.x != 0 || movement.y != 0) && isMoving == false)//Determines if player is allowed to move(not currently moving and 'movement' has input
         {
             moveTimer = 0;
@@ -48,6 +40,14 @@ public class PlayerMovement : MonoBehaviour
         {
             isMoving = false;
         }
+
+    }
+
+    //Move Player
+    private void FixedUpdate()
+    {
+
+
 
         if (isMoving == true)
         {
