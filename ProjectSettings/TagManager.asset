@@ -8,6 +8,7 @@ TagManager:
   - Human
   - Door
   - Key
+  - DeathBlock
   layers:
   - Default
   - TransparentFX

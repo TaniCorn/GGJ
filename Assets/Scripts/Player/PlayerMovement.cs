@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Variables
     [Header("Components")]
     private Rigidbody2D rb;
     [Space]
@@ -19,21 +20,19 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private Vector2 movement;
-    [SerializeField] [Tooltip("How fast the character moving plays")] private const float moveSpeed = 8f;
+    [SerializeField] [Tooltip("How fast the character moving plays")] private const float moveSpeed = 8.5f;
     [SerializeField] [Tooltip("How much the character will move in worldspace")] private Vector2 moveGridSpace;
     private bool isMoving;
     private Vector2 startMovePosition;
     private Vector2 targetMovePosition;
-    private float moveTimer;
-    private float moveWait;
-
-
+    [SerializeField] private float moveTimer;
+    private float moveWait = 3f;
+    #endregion
 
     //Initialise variables
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
-        moveWait = 4f;
     }
 
     //Get Controls
@@ -55,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
+
         #region PlayerMoving Control
         if ((movement.x != 0 || movement.y != 0) && isMoving == false)//Determines if player is allowed to move(not currently moving and 'movement' has input
         {
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isMoving = true;
             }
-            else if (!Physics2D.Raycast(startMovePosition, movement, 1, unmovable))
+            else if (!Physics2D.Raycast(startMovePosition, movement, 1, unmovable))//Used if cat cannot go forward two but can one
             {
                 targetMovePosition = rb.position + (movement);
                 isMoving = true;
@@ -86,23 +86,39 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveTimer > moveWait)//determines how long until player can move again
         {
+
             isMoving = false;
         }
         #endregion
 
-
+        //Used to allow cat to jump over holes
+        if (moveTimer <= 1)
+        {
+            this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
+        else
+        {
+            this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
     //Move Player
     private void FixedUpdate()
     {
-
-
-
         if (isMoving == true)
         {
             moveTimer += Time.deltaTime * moveSpeed;//determines how long until player can move again
             rb.MovePosition(new Vector2(Mathf.Lerp(startMovePosition.x, targetMovePosition.x, Mathf.Clamp(moveTimer, 0, 1)), Mathf.Lerp(startMovePosition.y, targetMovePosition.y, Mathf.Clamp(moveTimer, 0, 1))));//Moves according to gridSize
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Holes")
+        {
+            Destroy(this.gameObject);
+            //play falling animation? spinning and getting smaller
+            //retry screen
         }
     }
 
