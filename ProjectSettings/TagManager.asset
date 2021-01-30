@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Key
   - DeathBlock
+  - Holes
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Interactables
   - Door
   - Characters
-  - 
+  - Hole
   - 
   - 
   - 
