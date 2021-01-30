@@ -116,9 +116,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.tag == "Holes")
         {
-            Destroy(this.gameObject);
             //play falling animation? spinning and getting smaller
             //retry screen
+            Destroy(this.gameObject);
         }
     }
 
