@@ -18,7 +18,6 @@ public class Key : MonoBehaviour
     {
         this.gameObject.transform.position = target.transform.position;
 
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

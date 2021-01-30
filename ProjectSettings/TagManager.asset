@@ -7,6 +7,7 @@ TagManager:
   - Cat
   - Human
   - Door
+  - Key
   layers:
   - Default
   - TransparentFX
@@ -17,9 +18,9 @@ TagManager:
   - 
   - 
   - UnmovableObjects
-  - 
-  - 
-  - 
+  - Interactables
+  - Door
+  - Characters
   - 
   - 
   - 
