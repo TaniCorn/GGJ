@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Components")]
     private Rigidbody2D rb;
-    [SerializeField] private Vector2 movement;
-    [SerializeField] private const float moveSpeed = 10f;
-    [SerializeField] private Vector2 gridSize;
+    [Space]
 
+    [Header("Layer Masks")]
+    public LayerMask unmovable;
+    public LayerMask door;
+    [Space]
+
+    [Header("Direction Checks")]
+    private RaycastHit2D targetDirection;
+    [Space]
+
+    [Header("Movement variables")]
+    [SerializeField] private Vector2 movement;
+    [SerializeField] [Tooltip("How fast the character moving plays")] private const float moveSpeed = 8f;
+    [SerializeField] [Tooltip("How much the character will move in worldspace")] private Vector2 moveGridSpace;
     private bool isMoving;
-    public Vector2 moveStart;
-    public Vector2 moveEnd;
-    public float moveTimer;
-    public float moveWait;
+    private Vector2 startMovePosition;
+    private Vector2 targetMovePosition;
+    private float moveTimer;
+    private float moveWait;
 
 
 
@@ -27,8 +39,56 @@ public class PlayerMovement : MonoBehaviour
     //Get Controls
     void Update()
     {
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        #region Unit Movement
+        if (Input.GetAxisRaw("Horizontal") != 0)
+        {
+            movement = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
+        }
+        else if (Input.GetAxisRaw("Vertical") != 0)
+        {
+            movement = new Vector2(0, Input.GetAxisRaw("Vertical"));
+        }
+        else
+        {
+            movement = new Vector2(0, 0);
+        }
+        #endregion
+
+        #region PlayerMoving Control
+        if ((movement.x != 0 || movement.y != 0) && isMoving == false)//Determines if player is allowed to move(not currently moving and 'movement' has input
+        {
+        startMovePosition = rb.position;
+        targetMovePosition = rb.position + (movement * moveGridSpace);
+        moveTimer = 0;
+
+            if (!Physics2D.Raycast(startMovePosition, movement, moveGridSpace.x, unmovable))
+            {
+                isMoving = true;
+            }
+            else if (!Physics2D.Raycast(startMovePosition, movement, 1, unmovable))
+            {
+                targetMovePosition = rb.position + (movement);
+                isMoving = true;
+            }
+            else
+            {
+                Debug.Log("Can't Move");
+            }
+            //This is very bad code however it'll do for now. Will check if we have key and if so will open door
+            targetDirection = Physics2D.Raycast(startMovePosition, movement, 1, door);
+            if (targetDirection)
+            {
+                GetComponent<Inventory>().OpenDoor(targetDirection);
+            }
+        }
+  
+
+        if (moveTimer > moveWait)//determines how long until player can move again
+        {
+            isMoving = false;
+        }
+        #endregion
 
 
     }
@@ -37,22 +97,18 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if ((movement.x != 0 || movement.y != 0) && isMoving == false)//Determines if player is allowed to move(not currently moving and 'movement' has input
-        {
-            moveTimer = 0;
-            moveStart = rb.position;
-            moveEnd = rb.position + (movement * gridSize);
-            isMoving = true;
-        }
-        if (moveTimer > moveWait)//determines how long until player can move again
-        {
-            isMoving = false;
-        }
+
 
         if (isMoving == true)
         {
             moveTimer += Time.deltaTime * moveSpeed;//determines how long until player can move again
-            rb.MovePosition(new Vector2(Mathf.Lerp(moveStart.x, moveEnd.x, Mathf.Clamp(moveTimer, 0, 1)), Mathf.Lerp(moveStart.y, moveEnd.y, Mathf.Clamp(moveTimer, 0, 1))));//Moves according to gridSize
+            rb.MovePosition(new Vector2(Mathf.Lerp(startMovePosition.x, targetMovePosition.x, Mathf.Clamp(moveTimer, 0, 1)), Mathf.Lerp(startMovePosition.y, targetMovePosition.y, Mathf.Clamp(moveTimer, 0, 1))));//Moves according to gridSize
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Gizmos.DrawLine(moveStart, moveEnd);
+        Gizmos.DrawRay(startMovePosition, movement * moveGridSpace);
     }
 }
