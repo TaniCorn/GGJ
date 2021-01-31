@@ -195,7 +195,6 @@ public class MenuManager : MonoBehaviour
     public void QuitButtonPressed()
     {
         Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
     public void ControlButtonPressed()
