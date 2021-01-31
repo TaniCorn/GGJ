@@ -10,12 +10,15 @@ public class InGame : MonoBehaviour
     public GameObject loseMenu;
     private bool otherMenu;
     private Scene currentScene;
-
+    public GameObject audioManagerPrefab;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(audioManagerPrefab);
+        Debug.Log("Current Scene" + currentScene.buildIndex);
+        Debug.Log("SceneCountInBuildSettings: no minus " + SceneManager.sceneCountInBuildSettings);
         otherMenu = false;
         currentScene = SceneManager.GetActiveScene();
     }
@@ -41,11 +44,15 @@ public class InGame : MonoBehaviour
         if (popUp.gameObject.activeSelf)
         {
             popUp.gameObject.SetActive(false);
+            GameObject.FindGameObjectWithTag("Human").GetComponent<PlayerMovement>().enabled = true;
+            GameObject.FindGameObjectWithTag("Cat").GetComponent<PlayerMovement>().enabled = true;
         }
         else
         {
+            DisablePlayers();
             popUp.gameObject.SetActive(true);
         }
+
     }
 
     public void PlayerDied()
@@ -59,6 +66,7 @@ public class InGame : MonoBehaviour
         {
             winMenu.gameObject.SetActive(false);
         }
+        DisablePlayers();
     }
 
     public void PlayerWin()
@@ -72,6 +80,7 @@ public class InGame : MonoBehaviour
         {
             loseMenu.gameObject.SetActive(false);
         }
+        DisablePlayers();
     }
 
     public void ReturnToMenu()
@@ -84,11 +93,20 @@ public class InGame : MonoBehaviour
         {
             SceneManager.LoadScene(currentScene.buildIndex + 1);
         }
+        else
+        {
+            ReturnToMenu();
+        }
     }
     public void RetryLevel()
     {
         SceneManager.LoadScene(currentScene.buildIndex);
     }
     
+    public void DisablePlayers()
+    {
+        GameObject.FindGameObjectWithTag("Human").GetComponent<PlayerMovement>().enabled = false;
+        GameObject.FindGameObjectWithTag("Cat").GetComponent<PlayerMovement>().enabled = false;
+    }
 
 }

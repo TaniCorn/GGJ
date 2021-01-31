@@ -128,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveTimer += Time.deltaTime * moveSpeed;//determines how long until player can move again
             rb.MovePosition(new Vector2(Mathf.Lerp(startMovePosition.x, targetMovePosition.x, Mathf.Clamp(moveTimer, 0, 1)), Mathf.Lerp(startMovePosition.y, targetMovePosition.y, Mathf.Clamp(moveTimer, 0, 1))));//Moves according to gridSize
+            FindObjectOfType<AudioManager>().PlaySound("Moving");
         }
     }
 

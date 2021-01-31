@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8090864674917823345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 826203276751107556}
+  - component: {fileID: 273577627678960212}
+  m_Layer: 0
+  m_Name: AudioManagerGO
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &826203276751107556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090864674917823345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1776.4899, y: 581.0886, z: -8.76404}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &273577627678960212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090864674917823345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e20a0650b7ee34494e2b5be0f0f524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aud:
+  - clipName: Music
+    audioClip: {fileID: 8300000, guid: 5c862c4e347b90146a09a06c5b0cd06b, type: 3}
+    clipVolume: 1
+    loop: 1
+    audioSource: {fileID: 0}
+  - clipName: Moving
+    audioClip: {fileID: 8300000, guid: bb8b27974b43500479eba0a941749270, type: 3}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: Hitting Wall
+    audioClip: {fileID: 0}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: Pickup Key
+    audioClip: {fileID: 0}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: Dropping Key
+    audioClip: {fileID: 0}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: Unlock Door
+    audioClip: {fileID: 0}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: Falling down hole
+    audioClip: {fileID: 0}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: Winning Level
+    audioClip: {fileID: 0}
+    clipVolume: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: 
+    audioClip: {fileID: 0}
+    clipVolume: 0
+    loop: 0
+    audioSource: {fileID: 0}
+  - clipName: 
+    audioClip: {fileID: 0}
+    clipVolume: 0
+    loop: 0
+    audioSource: {fileID: 0}
+  audioSource: {fileID: 0}

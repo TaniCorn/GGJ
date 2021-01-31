@@ -13,6 +13,8 @@ public class MenuManager : MonoBehaviour
 
     public Scrollbar LevelScrollBar;
     public Image LevelScrollBox;
+    public int levelNumberSelected = 1;
+    public GameObject levelName;
 
     //public float transitionSpeed;
     //public float transitionWait;
@@ -27,11 +29,12 @@ public class MenuManager : MonoBehaviour
     Screen currentScreen;
     Screen previousScreen;
 
-    float levelAmount = 5;
+    float levelAmount = 10;
 
     // Start is called before the first frame update
     void Start()
     {
+        levelNumberSelected = 1;
         SetCurrentPanel(Screen.mainMenu);
 
         //transitionSpeed = 2;
@@ -155,7 +158,7 @@ public class MenuManager : MonoBehaviour
     //main menu puttons
     public void PlayButtonPressed()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level1");
     }
 
     public void LevelSelectButtonPressed()
@@ -189,5 +192,21 @@ public class MenuManager : MonoBehaviour
     public void LevelScrollbarScrolled()
     {
         LevelScrollBox.rectTransform.anchoredPosition = new Vector2(4040 - (LevelScrollBar.value * levelAmount * 350), 12);
+        Debug.Log(new Vector2(4040 - (LevelScrollBar.value * levelAmount * 350), 12));
+    }
+
+     public void LevelSelect(int levelSelected)
+    {
+        levelNumberSelected = levelSelected;
+
+    }
+    public void LevelSelectString(string textToReplace)
+    {
+        levelName.gameObject.GetComponent<Text>().text = textToReplace;
+    }
+
+    public void PlaySelected()
+    {
+        SceneManager.LoadScene(levelNumberSelected);
     }
 }
