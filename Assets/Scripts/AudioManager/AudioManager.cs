@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using System;
+using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
 {
     public AudioClips[] aud;
     public AudioSource audioSource;
+
+    public Slider musicVolume;
+    public Slider soundVolume;
+
+    public float mVol = 1;
+    public float sVol = 1;
+    public float masVol = 1;
 
     [System.Serializable]
     public class AudioClips
@@ -49,7 +57,10 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlaySound("Music");
+        mVol = 1;
+        sVol = 1;
+        masVol = 1;
+    PlaySound("Music");
     }
 
     public void PlaySound(string audioName)
@@ -58,6 +69,42 @@ public class AudioManager : MonoBehaviour
         if (audioFound != null)
         {
             audioFound.audioSource.Play();
+        }
+    }
+
+    public void MusicVolume(float vol)
+    {
+        mVol = vol;
+        ChangeVol();
+    }
+    public void SoundVolume(float vol)
+    {
+        sVol = vol;
+        ChangeVol();
+    }
+    public void MasterVolume(float vol)
+    {
+        masVol = vol;
+        foreach (AudioClips audio in aud)
+        {
+                audio.audioSource.volume = mVol * masVol;
+                audio.audioSource.volume = sVol * masVol;
+        }
+    }
+
+
+    public void ChangeVol()
+    {
+        foreach (AudioClips audio in aud)
+        {
+            if (audio.loop == true)
+            {
+                audio.audioSource.volume = mVol * masVol;
+            }
+            else
+            {
+                audio.audioSource.volume = sVol * masVol;
+            }
         }
     }
 }
