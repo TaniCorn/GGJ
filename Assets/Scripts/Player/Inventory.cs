@@ -31,6 +31,7 @@ public class Inventory : MonoBehaviour
         {
             if (!Physics2D.Raycast(originalPosition, direction[i], 1, noDropzone))
             {
+                FindObjectOfType<AudioManager>().PlaySound("DropKey");
                 pickedUpObject.GetComponent<BoxCollider2D>().enabled = true;
                 Instantiate(pickedUpObject, originalPosition + direction[i], transform.rotation);
                 Destroy(pickedUpObject);
@@ -45,6 +46,7 @@ public class Inventory : MonoBehaviour
     {
         if (collision.tag == "Key" && pickedUpObject == null)
         {
+            FindObjectOfType<AudioManager>().PlaySound("PickupKey");
             pickedUpObject = collision.gameObject;
             pickedUpObject.GetComponent<BoxCollider2D>().enabled = false;//turns off collider so we can drop it later
         }

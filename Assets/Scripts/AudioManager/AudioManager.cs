@@ -107,4 +107,41 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
+
+    public void ActivateGameMusic()
+    {
+        AudioClips audioFound = Array.Find(aud, AudioClips => AudioClips.clipName == "Music");
+        if (audioFound != null)
+        {
+            audioFound.audioSource.Stop();
+        }
+        audioFound = Array.Find(aud, AudioClips => AudioClips.clipName == "MusicGame");
+        if (audioFound != null)
+        {
+            audioFound.audioSource.Play();
+        }
+    }
+
+    public void ActivateMenuMusic()
+    {
+        AudioClips audioFound = Array.Find(aud, AudioClips => AudioClips.clipName == "MusicGame");
+        if (audioFound != null)
+        {
+            audioFound.audioSource.Stop();
+        }
+        audioFound = Array.Find(aud, AudioClips => AudioClips.clipName == "Music");
+        if (audioFound != null)
+        {
+            audioFound.audioSource.Play();
+        }
+    }
+
+    public void StopAllSound()
+    {
+        foreach (AudioClips audio in aud)
+        {
+            audio.audioSource.Stop();
+        }
+    }
+
 }

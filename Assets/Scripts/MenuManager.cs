@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject LevelSelectPanel;
     public GameObject SettingsPanel;
     public GameObject CreditsPanel;
+    public GameObject ControlsPanel;
 
     public Scrollbar LevelScrollBar;
     public Image LevelScrollBox;
@@ -25,7 +26,7 @@ public class MenuManager : MonoBehaviour
     //public Vector2 transitionEnd;
     //public bool isTransitioning;
 
-    public enum Screen { mainMenu, levelSelect, settings, credits};
+    public enum Screen { mainMenu, levelSelect, settings, credits, controls};
     Screen currentScreen;
     Screen previousScreen;
 
@@ -64,6 +65,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetCurrentPanel(Screen screen)
     {
+        FindObjectOfType<AudioManager>().PlaySound("UI");
         previousScreen = currentScreen;
         currentScreen = screen;
 
@@ -74,6 +76,7 @@ public class MenuManager : MonoBehaviour
                 LevelSelectPanel.SetActive(false);
                 SettingsPanel.SetActive(false);
                 CreditsPanel.SetActive(false);
+                ControlsPanel.SetActive(false);
                 //beginTransition();
                 break;
 
@@ -82,6 +85,7 @@ public class MenuManager : MonoBehaviour
                 LevelSelectPanel.SetActive(true);
                 SettingsPanel.SetActive(false);
                 CreditsPanel.SetActive(false);
+                ControlsPanel.SetActive(false);
                 //beginTransition();
                 break;
 
@@ -90,6 +94,7 @@ public class MenuManager : MonoBehaviour
                 LevelSelectPanel.SetActive(false);
                 SettingsPanel.SetActive(true);
                 CreditsPanel.SetActive(false);
+                ControlsPanel.SetActive(false);
                 //beginTransition();
                 break;
 
@@ -98,9 +103,16 @@ public class MenuManager : MonoBehaviour
                 LevelSelectPanel.SetActive(false);
                 SettingsPanel.SetActive(false);
                 CreditsPanel.SetActive(true);
+                ControlsPanel.SetActive(false);
                 //beginTransition();
                 break;
-
+            case Screen.controls:
+                MenuPanel.SetActive(false);
+                LevelSelectPanel.SetActive(false);
+                SettingsPanel.SetActive(false);
+                CreditsPanel.SetActive(false);
+                ControlsPanel.SetActive(true);
+                break;
         }
     }
     //public void setPanelPosition(Screen screen, Vector2 position)
@@ -159,34 +171,46 @@ public class MenuManager : MonoBehaviour
     public void PlayButtonPressed()
     {
         SceneManager.LoadScene("Level1");
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
 
     public void LevelSelectButtonPressed()
     {
         SetCurrentPanel(Screen.levelSelect);
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
 
     public void SettingsButtonPressed()
     {
         SetCurrentPanel(Screen.settings);
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
 
     public void CreditsButtonPressed()
     {
         SetCurrentPanel(Screen.credits);
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
 
     public void QuitButtonPressed()
     {
         Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
+        FindObjectOfType<AudioManager>().PlaySound("UI");
+    }
+    public void ControlButtonPressed()
+    {
+        SetCurrentPanel(Screen.controls);
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
 
     //general back button
     public void BackButtonPressed()
     {
         SetCurrentPanel(Screen.mainMenu);
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
+  
 
     //level select buttons
     public void LevelScrollbarScrolled()
@@ -198,7 +222,7 @@ public class MenuManager : MonoBehaviour
      public void LevelSelect(int levelSelected)
     {
         levelNumberSelected = levelSelected;
-
+        FindObjectOfType<AudioManager>().PlaySound("UI");
     }
     public void LevelSelectString(string textToReplace)
     {
@@ -207,6 +231,8 @@ public class MenuManager : MonoBehaviour
 
     public void PlaySelected()
     {
+        FindObjectOfType<AudioManager>().PlaySound("UI");
         SceneManager.LoadScene(levelNumberSelected);
+
     }
 }

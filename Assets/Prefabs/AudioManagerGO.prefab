@@ -45,27 +45,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud:
   - clipName: Music
-    audioClip: {fileID: 8300000, guid: 5c862c4e347b90146a09a06c5b0cd06b, type: 3}
+    audioClip: {fileID: 8300000, guid: 7f18c9fa51be5b14b9e27004f96aa278, type: 3}
     clipVolume: 1
     loop: 1
     audioSource: {fileID: 0}
   - clipName: Moving
-    audioClip: {fileID: 8300000, guid: bb8b27974b43500479eba0a941749270, type: 3}
+    audioClip: {fileID: 8300000, guid: fb89d3fe6e3fbb94fb1d342201a9cf89, type: 3}
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: Hitting Wall
-    audioClip: {fileID: 0}
+  - clipName: HitWall
+    audioClip: {fileID: 8300000, guid: a454eb49c4badda45accfe7bf18050eb, type: 3}
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: Pickup Key
-    audioClip: {fileID: 0}
+  - clipName: PickupKey
+    audioClip: {fileID: 8300000, guid: fda867d88a19f3d4095921fa85dc7cc2, type: 3}
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: Dropping Key
-    audioClip: {fileID: 0}
+  - clipName: DropKey
+    audioClip: {fileID: 8300000, guid: d68fbc95f3a43e14f896e756785f6893, type: 3}
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
@@ -74,24 +74,32 @@ MonoBehaviour:
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: Falling down hole
-    audioClip: {fileID: 0}
+  - clipName: Fall
+    audioClip: {fileID: 8300000, guid: 6e21b75214f531d42846e07a308784ff, type: 3}
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: Winning Level
-    audioClip: {fileID: 0}
+  - clipName: Win
+    audioClip: {fileID: 8300000, guid: 7f347b3cd9764414996d2222111e2536, type: 3}
     clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: 
-    audioClip: {fileID: 0}
+  - clipName: Losing
+    audioClip: {fileID: 8300000, guid: 6e21b75214f531d42846e07a308784ff, type: 3}
     clipVolume: 0
     loop: 0
     audioSource: {fileID: 0}
-  - clipName: 
-    audioClip: {fileID: 0}
-    clipVolume: 0
+  - clipName: MusicGame
+    audioClip: {fileID: 8300000, guid: 79e176d09fd8a014f832158ef951333b, type: 3}
+    clipVolume: 1
+    loop: 1
+    audioSource: {fileID: 0}
+  - clipName: UI
+    audioClip: {fileID: 8300000, guid: c7927c4bb26f8de45ad88e2c0fd74d57, type: 3}
+    clipVolume: 1
     loop: 0
     audioSource: {fileID: 0}
   audioSource: {fileID: 0}
+  mVol: 1
+  sVol: 1
+  masVol: 1
