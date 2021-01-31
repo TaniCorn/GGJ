@@ -76,7 +76,7 @@ public class InGame : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Menu");
     }
     public void GoToNextLevel()
     {
