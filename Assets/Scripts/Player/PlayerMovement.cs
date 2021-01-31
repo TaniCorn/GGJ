@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                FindObjectOfType<AudioManager>().PlaySound("HitWall");
                 Debug.Log("Can't Move");
             }
             //This is very bad code however it'll do for now. Will check if we have key and if so will open door
@@ -143,9 +144,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         //Gizmos.DrawLine(moveStart, moveEnd);
         Gizmos.DrawRay(startMovePosition, movement * moveGridSpace);
-    }
+    }*/
 }

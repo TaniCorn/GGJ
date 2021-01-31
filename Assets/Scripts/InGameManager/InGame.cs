@@ -15,6 +15,7 @@ public class InGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FindObjectOfType<AudioManager>().ActivateGameMusic();
         otherMenu = false;
         currentScene = SceneManager.GetActiveScene();
         Debug.Log("Current Scene" + currentScene.buildIndex);
@@ -39,6 +40,7 @@ public class InGame : MonoBehaviour
     /// </summary>
     public void ToggleMenu()
     {
+        FindObjectOfType<AudioManager>().PlaySound("UI");
         if (popUp.gameObject.activeSelf)
         {
             popUp.gameObject.SetActive(false);
@@ -55,6 +57,8 @@ public class InGame : MonoBehaviour
 
     public void PlayerDied()
     {
+        FindObjectOfType<AudioManager>().StopAllSound();
+        FindObjectOfType<AudioManager>().PlaySound("Fall");
         otherMenu = true;
         if (!loseMenu.gameObject.activeSelf)
         {
@@ -69,6 +73,8 @@ public class InGame : MonoBehaviour
 
     public void PlayerWin()
     {
+        FindObjectOfType<AudioManager>().StopAllSound();
+        FindObjectOfType<AudioManager>().PlaySound("Win");
         otherMenu = true;
         if (!winMenu.gameObject.activeSelf)
         {
@@ -83,10 +89,14 @@ public class InGame : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        FindObjectOfType<AudioManager>().PlaySound("UI");
+        FindObjectOfType<AudioManager>().ActivateMenuMusic();
         SceneManager.LoadScene("Menu");
     }
     public void GoToNextLevel()
     {
+        FindObjectOfType<AudioManager>().StopAllSound();
+        FindObjectOfType<AudioManager>().PlaySound("UI");
         if (currentScene.buildIndex < (SceneManager.sceneCountInBuildSettings -1))
         {
             SceneManager.LoadScene(currentScene.buildIndex + 1);
@@ -94,10 +104,12 @@ public class InGame : MonoBehaviour
         else
         {
             ReturnToMenu();
+            FindObjectOfType<AudioManager>().ActivateMenuMusic();
         }
     }
     public void RetryLevel()
     {
+        FindObjectOfType<AudioManager>().StopAllSound();
         SceneManager.LoadScene(currentScene.buildIndex);
     }
     
