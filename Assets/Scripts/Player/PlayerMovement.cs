@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
     [Header("Components")]
     private Rigidbody2D rb;
+    public GameObject targetPlayer;
     [Space]
 
     [Header("Layer Masks")]
@@ -100,11 +101,29 @@ public class PlayerMovement : MonoBehaviour
         {
             this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }
+
     }
 
     //Move Player
     private void FixedUpdate()
     {
+        if (this.gameObject.tag == "Human")
+        {
+            targetPlayer = GameObject.FindGameObjectWithTag("Cat");       
+        }
+        else if (this.gameObject.tag == "Cat") 
+        {
+            targetPlayer = GameObject.FindGameObjectWithTag("Human");
+        }
+
+        Debug.Log(Vector3.Distance(this.gameObject.transform.position, targetPlayer.gameObject.transform.position));
+        if (Vector3.Distance(this.gameObject.transform.position, targetPlayer.gameObject.transform.position) < 0.5)
+        {
+
+            FindObjectOfType<InGame>().PlayerWin();
+        }
+
+
         if (isMoving == true)
         {
             moveTimer += Time.deltaTime * moveSpeed;//determines how long until player can move again
@@ -114,11 +133,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision);
         if (collision.tag == "Holes")
         {
-            Destroy(this.gameObject);
             //play falling animation? spinning and getting smaller
-            //retry screen
+            FindObjectOfType<InGame>().PlayerDied();
+            Destroy(this.gameObject);
         }
     }
 

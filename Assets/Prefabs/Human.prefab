@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a9f04b3820d3bf44a2df67211d00fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPlayer: {fileID: 7750492903495341860, guid: 733cc62de7ee943468ae609b6baef7a7, type: 3}
   unmovable:
     serializedVersion: 2
     m_Bits: 1280
