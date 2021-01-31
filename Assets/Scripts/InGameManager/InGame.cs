@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 public class InGame : MonoBehaviour
 {
 
@@ -10,6 +12,9 @@ public class InGame : MonoBehaviour
     public GameObject loseMenu;
     private bool otherMenu;
     private Scene currentScene;
+    public GameObject text;
+    public Text t;
+    
 
 
     // Start is called before the first frame update
@@ -117,6 +122,11 @@ public class InGame : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("Human").GetComponent<PlayerMovement>().enabled = false;
         GameObject.FindGameObjectWithTag("Cat").GetComponent<PlayerMovement>().enabled = false;
+    }
+
+    public void PlayerMoved(int i)
+    {
+        text.GetComponent<Text>().text = i.ToString();
     }
 
 }

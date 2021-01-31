@@ -30,10 +30,14 @@ public class PlayerMovement : MonoBehaviour
     private float moveWait = 3f;
     #endregion
 
+
+    public int moves;
+
     //Initialise variables
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        moves = 0;
     }
 
     //Get Controls
@@ -66,11 +70,13 @@ public class PlayerMovement : MonoBehaviour
             if (!Physics2D.Raycast(startMovePosition, movement, moveGridSpace.x, unmovable))
             {
                 isMoving = true;
+                moves++;
             }
             else if (!Physics2D.Raycast(startMovePosition, movement, 1, unmovable))//Used if cat cannot go forward two but can one
             {
                 targetMovePosition = rb.position + (movement);
                 isMoving = true;
+                moves++;
             }
             else
             {
@@ -131,6 +137,8 @@ public class PlayerMovement : MonoBehaviour
             rb.MovePosition(new Vector2(Mathf.Lerp(startMovePosition.x, targetMovePosition.x, Mathf.Clamp(moveTimer, 0, 1)), Mathf.Lerp(startMovePosition.y, targetMovePosition.y, Mathf.Clamp(moveTimer, 0, 1))));//Moves according to gridSize
             FindObjectOfType<AudioManager>().PlaySound("Moving");
         }
+
+        FindObjectOfType<InGame>().PlayerMoved(moves);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
