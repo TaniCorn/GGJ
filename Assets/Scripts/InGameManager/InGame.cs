@@ -10,17 +10,15 @@ public class InGame : MonoBehaviour
     public GameObject loseMenu;
     private bool otherMenu;
     private Scene currentScene;
-    public GameObject audioManagerPrefab;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(audioManagerPrefab);
-        Debug.Log("Current Scene" + currentScene.buildIndex);
-        Debug.Log("SceneCountInBuildSettings: no minus " + SceneManager.sceneCountInBuildSettings);
         otherMenu = false;
         currentScene = SceneManager.GetActiveScene();
+        Debug.Log("Current Scene" + currentScene.buildIndex);
+        Debug.Log("SceneCountInBuildSettings: no minus " + SceneManager.sceneCountInBuildSettings);
     }
 
     void Update()
@@ -89,7 +87,7 @@ public class InGame : MonoBehaviour
     }
     public void GoToNextLevel()
     {
-        if (currentScene.buildIndex < SceneManager.sceneCountInBuildSettings -1)
+        if (currentScene.buildIndex < (SceneManager.sceneCountInBuildSettings -1))
         {
             SceneManager.LoadScene(currentScene.buildIndex + 1);
         }
