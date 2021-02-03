@@ -6,17 +6,27 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    #region Variables and Objects
+    [Header("All Panels")]
     public GameObject MenuPanel;
+    [Space]
     public GameObject LevelSelectPanel;
+    public Scrollbar LevelScrollBar;
+    private float levelAmount = 10;//used for the scrollbar in levels, however the maths is wrong but it still works with incorrect numbers
+    public Image LevelScrollBox;
+    public int levelNumberSelected = 1;
+    public GameObject levelName;
+    [Space]
     public GameObject SettingsPanel;
     public GameObject CreditsPanel;
     public GameObject ControlsPanel;
 
-    public Scrollbar LevelScrollBar;
-    public Image LevelScrollBox;
-    public int levelNumberSelected = 1;
-    public GameObject levelName;
+    public enum Screen { mainMenu, levelSelect, settings, credits, controls };
+    Screen currentScreen;
+    //Screen previousScreen;
+    #endregion
 
+    #region deadVars
     //public float transitionSpeed;
     //public float transitionWait;
     //public Vector2 transitionDirection;
@@ -25,34 +35,33 @@ public class MenuManager : MonoBehaviour
     //public Vector2 transitionStart;
     //public Vector2 transitionEnd;
     //public bool isTransitioning;
+    #endregion
 
-    public enum Screen { mainMenu, levelSelect, settings, credits, controls};
-    Screen currentScreen;
-    Screen previousScreen;
 
-    float levelAmount = 10;
 
-    // Start is called before the first frame update
+    //Initialisations
     void Start()
     {
         levelNumberSelected = 1;
-        SetCurrentPanel(Screen.mainMenu);
+        SetCurrentPanel(Screen.mainMenu);//Starts with main screen
 
+        #region dedTransition
         //transitionSpeed = 2;
         //transitionWait = 5;
         //transitionDirection = new Vector2(1, 0);
         //windowSize = new Vector2(1920f, 1080f);
         //isTransitioning = false;
+        #endregion
     }
-
+    #region deadCodeTransition
     // Update is called once per frame
-    void Update()
-    {
-        //if (transitionTimer > transitionWait)
-        //{
-        //    isTransitioning = false;
-        //}
-    }
+    //void Update()
+    //{
+    //if (transitionTimer > transitionWait)
+    //{
+    //    isTransitioning = false;
+    //}
+    //}
 
     //private void FixedUpdate()
     //{
@@ -62,11 +71,16 @@ public class MenuManager : MonoBehaviour
     //        setPanelPosition(currentScreen, new Vector2(Mathf.Lerp(transitionStart.x, transitionEnd.x, Mathf.Clamp(transitionTimer, 0, 1)), Mathf.Lerp(transitionStart.y, transitionEnd.y, Mathf.Clamp(transitionTimer, 0, 1))));
     //    }
     //}
+    #endregion
 
+    /// <summary>
+    /// Sets the screen to specified screen. This system uses panels that have to be referenced and coded in. Room for improvement later but really good
+    /// </summary>
+    /// <param name="screen"></param>
     public void SetCurrentPanel(Screen screen)
     {
         FindObjectOfType<AudioManager>().PlaySound("UI");
-        previousScreen = currentScreen;
+        //previousScreen = currentScreen;
         currentScreen = screen;
 
         switch (currentScreen)
@@ -115,6 +129,7 @@ public class MenuManager : MonoBehaviour
                 break;
         }
     }
+    #region Dead Code
     //public void setPanelPosition(Screen screen, Vector2 position)
     //{
     //    switch (screen)
@@ -166,32 +181,29 @@ public class MenuManager : MonoBehaviour
     //        isTransitioning = true;
     //    }
     //}
+    #endregion
 
-    //main menu puttons
+    #region buttons
     public void PlayButtonPressed()
     {
         SceneManager.LoadScene("Level1");
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
-
     public void LevelSelectButtonPressed()
     {
         SetCurrentPanel(Screen.levelSelect);
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
-
     public void SettingsButtonPressed()
     {
         SetCurrentPanel(Screen.settings);
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
-
     public void CreditsButtonPressed()
     {
         SetCurrentPanel(Screen.credits);
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
-
     public void QuitButtonPressed()
     {
         Application.Quit();
@@ -202,23 +214,21 @@ public class MenuManager : MonoBehaviour
         SetCurrentPanel(Screen.controls);
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
-
     //general back button
     public void BackButtonPressed()
     {
         SetCurrentPanel(Screen.mainMenu);
         FindObjectOfType<AudioManager>().PlaySound("UI");
     }
-  
+    #endregion
 
-    //level select buttons
+    #region level Functions
     public void LevelScrollbarScrolled()
     {
-        LevelScrollBox.rectTransform.anchoredPosition = new Vector2(4040 - (LevelScrollBar.value * levelAmount * 350), 12);
+        LevelScrollBox.rectTransform.anchoredPosition = new Vector2(4040 - (LevelScrollBar.value * levelAmount * 350), 12);//Changes position with formula hard coded
         Debug.Log(new Vector2(4040 - (LevelScrollBar.value * levelAmount * 350), 12));
     }
-
-     public void LevelSelect(int levelSelected)
+    public void LevelSelect(int levelSelected)
     {
         levelNumberSelected = levelSelected;
         FindObjectOfType<AudioManager>().PlaySound("UI");
@@ -227,11 +237,10 @@ public class MenuManager : MonoBehaviour
     {
         levelName.gameObject.GetComponent<Text>().text = textToReplace;
     }
-
     public void PlaySelected()
     {
         FindObjectOfType<AudioManager>().PlaySound("UI");
         SceneManager.LoadScene(levelNumberSelected);
-
     }
+    #endregion
 }

@@ -6,25 +6,25 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 public class InGame : MonoBehaviour
 {
-
+    [Header("Menus/UI")]
     public GameObject popUp;
     public GameObject winMenu;
     public GameObject loseMenu;
-    private bool otherMenu;
-    private Scene currentScene;
     public GameObject text;
-    public Text t;
-    
+    [Space]
+
+    private bool otherMenu;//If a menu is open, limit what can be done
+    private Scene currentScene;
+    private int moves;
 
 
-    // Start is called before the first frame update
+    // Initialisation
     void Start()
     {
         FindObjectOfType<AudioManager>().ActivateGameMusic();
         otherMenu = false;
         currentScene = SceneManager.GetActiveScene();
-        Debug.Log("Current Scene" + currentScene.buildIndex);
-        Debug.Log("SceneCountInBuildSettings: no minus " + SceneManager.sceneCountInBuildSettings);
+        moves = 0;
     }
 
     void Update()
@@ -36,7 +36,6 @@ public class InGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && otherMenu == false)
         {
             ToggleMenu();
-            Debug.Log("Escape");
         }
     }
 
@@ -49,8 +48,7 @@ public class InGame : MonoBehaviour
         if (popUp.gameObject.activeSelf)
         {
             popUp.gameObject.SetActive(false);
-            GameObject.FindGameObjectWithTag("Human").GetComponent<PlayerMovement>().enabled = true;
-            GameObject.FindGameObjectWithTag("Cat").GetComponent<PlayerMovement>().enabled = true;
+            EnablePlayers();
         }
         else
         {
@@ -60,11 +58,14 @@ public class InGame : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// When Player dies, it opens a lose menu and plays sound
+    /// </summary>
     public void PlayerDied()
     {
         FindObjectOfType<AudioManager>().StopAllSound();
         FindObjectOfType<AudioManager>().PlaySound("Fall");
-        otherMenu = true;
+        otherMenu = true;//can't bring up togglemenu
         if (!loseMenu.gameObject.activeSelf)
         {
             loseMenu.gameObject.SetActive(true);
@@ -76,11 +77,14 @@ public class InGame : MonoBehaviour
         DisablePlayers();
     }
 
+    /// <summary>
+    /// When player wins, it opens win menu and plays sound
+    /// </summary>
     public void PlayerWin()
     {
         FindObjectOfType<AudioManager>().StopAllSound();
         FindObjectOfType<AudioManager>().PlaySound("Win");
-        otherMenu = true;
+        otherMenu = true;////can't bring up togglemenu
         if (!winMenu.gameObject.activeSelf)
         {
             winMenu.gameObject.SetActive(true);
@@ -92,12 +96,19 @@ public class InGame : MonoBehaviour
         DisablePlayers();
     }
 
+    /// <summary>
+    /// Goes back to Main Menu
+    /// </summary>
     public void ReturnToMenu()
     {
         FindObjectOfType<AudioManager>().PlaySound("UI");
         FindObjectOfType<AudioManager>().ActivateMenuMusic();
         SceneManager.LoadScene("Menu");
     }
+
+    /// <summary>
+    /// Loads the next scene in build, if at the end, return to menu
+    /// </summary>
     public void GoToNextLevel()
     {
         FindObjectOfType<AudioManager>().StopAllSound();
@@ -112,21 +123,33 @@ public class InGame : MonoBehaviour
             FindObjectOfType<AudioManager>().ActivateMenuMusic();
         }
     }
+
     public void RetryLevel()
     {
         FindObjectOfType<AudioManager>().StopAllSound();
         SceneManager.LoadScene(currentScene.buildIndex);
     }
     
+    //Disables and enables player movement script
     public void DisablePlayers()
     {
         GameObject.FindGameObjectWithTag("Human").GetComponent<PlayerMovement>().enabled = false;
         GameObject.FindGameObjectWithTag("Cat").GetComponent<PlayerMovement>().enabled = false;
     }
-
-    public void PlayerMoved(int i)
+    public void EnablePlayers()
     {
-        text.GetComponent<Text>().text = i.ToString();
+        GameObject.FindGameObjectWithTag("Human").GetComponent<PlayerMovement>().enabled = true;
+        GameObject.FindGameObjectWithTag("Cat").GetComponent<PlayerMovement>().enabled = true;
+    }
+
+    /// <summary>
+    /// Changes Moves on screen to current moves
+    /// </summary>
+    /// <param name="i"></param>
+    public void PlayerMoved(int i)// i doesn't need to be here however it may be useful to keep it in case I want to change the parameter and it shouldn't be one.
+    {
+        moves = moves + i;
+        text.GetComponent<Text>().text = moves.ToString();
     }
 
 }

@@ -30,14 +30,10 @@ public class PlayerMovement : MonoBehaviour
     private float moveWait = 3f;
     #endregion
 
-
-    public int moves;
-
     //Initialise variables
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
-        moves = 0;
     }
 
     //Get Controls
@@ -45,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         #region Unit Movement
+        //Only allowed to move horizontally or vertically
         if (Input.GetAxisRaw("Horizontal") != 0)
         {
             movement = new Vector2(Input.GetAxisRaw("Horizontal"), 0);
@@ -59,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-
         #region PlayerMoving Control
         if ((movement.x != 0 || movement.y != 0) && isMoving == false)//Determines if player is allowed to move(not currently moving and 'movement' has input
         {
@@ -67,38 +63,38 @@ public class PlayerMovement : MonoBehaviour
         targetMovePosition = rb.position + (movement * moveGridSpace);
         moveTimer = 0;
 
+            //If can move, isMoving on.
             if (!Physics2D.Raycast(startMovePosition, movement, moveGridSpace.x, unmovable))
             {
                 isMoving = true;
-                moves++;
+                FindObjectOfType<InGame>().PlayerMoved(1);
             }
             else if (!Physics2D.Raycast(startMovePosition, movement, 1, unmovable))//Used if cat cannot go forward two but can one
             {
                 targetMovePosition = rb.position + (movement);
+                FindObjectOfType<InGame>().PlayerMoved(1);
                 isMoving = true;
-                moves++;
             }
             else
             {
                 FindObjectOfType<AudioManager>().PlaySound("HitWall");
                 Debug.Log("Can't Move");
             }
-            //This is very bad code however it'll do for now. Will check if we have key and if so will open door
+
+            //Opens door in direction that character wants to move in
             targetDirection = Physics2D.Raycast(startMovePosition, movement, 1, door);
             if (targetDirection)
             {
                 GetComponent<Inventory>().OpenDoor(targetDirection);
             }
         }
-  
 
-        if (moveTimer > moveWait)//determines how long until player can move again
+        //determines how long until player can move again
+        if (moveTimer > moveWait)
         {
 
             isMoving = false;
         }
-        #endregion
-
         //Used to allow cat to jump over holes
         if (moveTimer <= 1)
         {
@@ -108,29 +104,31 @@ public class PlayerMovement : MonoBehaviour
         {
             this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }
+        #endregion
 
     }
 
     //Move Player
     private void FixedUpdate()
     {
+
+
+        //Distance between two players, once less than 0.5 win.
         if (this.gameObject.tag == "Human")
         {
-            targetPlayer = GameObject.FindGameObjectWithTag("Cat");       
+            targetPlayer = GameObject.FindGameObjectWithTag("Cat");
         }
-        else if (this.gameObject.tag == "Cat") 
+        else if (this.gameObject.tag == "Cat")
         {
             targetPlayer = GameObject.FindGameObjectWithTag("Human");
         }
-
-        Debug.Log(Vector3.Distance(this.gameObject.transform.position, targetPlayer.gameObject.transform.position));
         if (Vector3.Distance(this.gameObject.transform.position, targetPlayer.gameObject.transform.position) < 0.5)
         {
 
             FindObjectOfType<InGame>().PlayerWin();
         }
 
-
+        //Explore putting this in an enumerator
         if (isMoving == true)
         {
             moveTimer += Time.deltaTime * moveSpeed;//determines how long until player can move again
@@ -138,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
             FindObjectOfType<AudioManager>().PlaySound("Moving");
         }
 
-        FindObjectOfType<InGame>().PlayerMoved(moves);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -157,4 +155,6 @@ public class PlayerMovement : MonoBehaviour
         //Gizmos.DrawLine(moveStart, moveEnd);
         Gizmos.DrawRay(startMovePosition, movement * moveGridSpace);
     }*/
+
+
 }

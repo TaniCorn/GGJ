@@ -29,6 +29,7 @@ public class Inventory : MonoBehaviour
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         for (int i = 0; i < 4; i++)//Checks all 4 directions, if one is empty. Drop object once
         {
+            //Once empty is found, we will drop in that area
             if (!Physics2D.Raycast(originalPosition, direction[i], 1, noDropzone))
             {
                 FindObjectOfType<AudioManager>().PlaySound("DropKey");
